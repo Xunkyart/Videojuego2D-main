@@ -7,10 +7,16 @@ public class InicioScript : MonoBehaviour
     public GameObject panelSettings;
 
     public GameObject AudioManagerObj;
+
+    AudioSource AudioManagerSource;
+
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         panelSettings.SetActive(false);
+        AudioManagerSource = AudioManagerObj.GetComponent<AudioSource>();
+        
     }
 
     // Update is called once per frame
@@ -33,10 +39,9 @@ public class InicioScript : MonoBehaviour
         panelSettings.SetActive(true);
         panelInicio.SetActive(false);
     }
-
     //BOTÓN EXIT SETTINGS
 
-    public void exit()
+    void exit()
     {
         panelSettings.SetActive(false);
         panelInicio.SetActive(true);
@@ -44,7 +49,7 @@ public class InicioScript : MonoBehaviour
 
     //BOTÓN EXIT GAME
 
-    public void exitGame()
+    void exitGame()
     {
         Application.Quit();
     }

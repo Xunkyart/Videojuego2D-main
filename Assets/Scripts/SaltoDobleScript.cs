@@ -12,7 +12,6 @@ public class SaltoDobleScript : MonoBehaviour
 
     private bool recargando = false;
 
-    public float tiempoRecarga;
 
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -23,8 +22,6 @@ public class SaltoDobleScript : MonoBehaviour
         permiteSaltoDoble = Player.GetComponent<Movimiento>().saltoDoble;
 
         SaltoDobleAnimator = this.GetComponent<Animator>();
-
-        tiempoRecarga = 2.0f;
 
         recargando = false;
 
@@ -40,9 +37,8 @@ public class SaltoDobleScript : MonoBehaviour
             Debug.Log("Hola");
             SaltoDobleAnimator.SetBool("Gastado",true);
             recargando = true;  
-             StartCoroutine(IniciarTemporizador());
+            StartCoroutine(IniciarTemporizador());
         }
-
     }
 
     IEnumerator IniciarTemporizador(){
@@ -58,13 +54,8 @@ public class SaltoDobleScript : MonoBehaviour
         {
             permiteSaltoDoble = true;
         }
-
-       
     }
   
-
-
-
     void OnTriggerExit2D(){
         permiteSaltoDoble = false;
     }
