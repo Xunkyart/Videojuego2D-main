@@ -1,10 +1,11 @@
-    using System;
-    using NUnit.Framework;
-    using Unity.VisualScripting;
-    using UnityEngine;
+using System;
+using NUnit.Framework;
+using Unity.VisualScripting;
+using UnityEngine;
 
 public class Fantasma : MonoBehaviour
-{   string estado = "patrulla";
+{
+    string estado = "patrulla";
 
     public float distanciaPatrulla = 3.0f;
 
@@ -12,7 +13,7 @@ public class Fantasma : MonoBehaviour
 
     public float velocidadAtaque = 1.0f;
 
-    public float distanciaEvitar =3.0f;
+    public float distanciaEvitar = 3.0f;
 
     public float distanciaAtaque = 3.0f;
 
@@ -22,7 +23,8 @@ public class Fantasma : MonoBehaviour
 
     Vector3 posicionInicial;
 
-    Vector3 posicionLimitIzq, posicionLimitDrcha;
+    Vector3 posicionLimitIzq,
+        posicionLimitDrcha;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -31,9 +33,17 @@ public class Fantasma : MonoBehaviour
 
         posicionInicial = transform.position;
 
-        posicionLimitIzq = new Vector3(posicionInicial.x - distanciaPatrulla, posicionInicial.y, posicionInicial.z);
+        posicionLimitIzq = new Vector3(
+            posicionInicial.x - distanciaPatrulla,
+            posicionInicial.y,
+            posicionInicial.z
+        );
 
-        posicionLimitDrcha = new Vector3(posicionInicial.x + distanciaPatrulla, posicionInicial.y, posicionInicial.z);
+        posicionLimitDrcha = new Vector3(
+            posicionInicial.x + distanciaPatrulla,
+            posicionInicial.y,
+            posicionInicial.z
+        );
 
         estado = "patrulla";
     }
@@ -42,25 +52,25 @@ public class Fantasma : MonoBehaviour
     void Update()
     {
         //PATRULLA
-        if(estado == "patrulla")
+        if (estado == "patrulla")
         {
-            if(transform.position.x >= posicionLimitDrcha.x)
+            if (transform.position.x >= posicionLimitDrcha.x)
             {
                 dirPatruDrcha = false;
             }
             else if (transform.position.x <= posicionLimitIzq.x)
             {
-               dirPatruDrcha = true;
+                dirPatruDrcha = true;
             }
 
             if (dirPatruDrcha == true)
             {
-                transform.Translate(velocidadPatrulla*Time.deltaTime, 0, 0);
+                transform.Translate(velocidadPatrulla * Time.deltaTime, 0, 0);
                 this.GetComponent<SpriteRenderer>().flipX = false;
             }
             else
             {
-                transform.Translate(velocidadPatrulla*-1*Time.deltaTime,0,0);
+                transform.Translate(velocidadPatrulla * -1 * Time.deltaTime, 0, 0);
                 this.GetComponent<SpriteRenderer>().flipX = true;
             }
         }
@@ -68,37 +78,52 @@ public class Fantasma : MonoBehaviour
         //REGRESO
         //Si nos alejamos lo suficiente, el enemigo deja de perseguirnos y vuelve a su patrulla
 
-        float distanciaConPlayer = Vector3.Distance(transform.position, Personaje.transform.position);
-        if(distanciaConPlayer <= distanciaAtaque)
+        float distanciaConPlayer = Vector3.Distance(
+            transform.position,
+            Personaje.transform.position
+        );
+        if (distanciaConPlayer <= distanciaAtaque)
         {
             estado = "ataque";
         }
-        if(distanciaConPlayer > distanciaEvitar&&estado=="ataque")
+        if (distanciaConPlayer > distanciaEvitar && estado == "ataque")
         {
-            estado ="regreso";
-        } 
+            estado = "regreso";
+        }
 
-         if (estado == "regreso")
+        if (estado == "regreso")
         {
-            transform.position = Vector3.MoveTowards(transform.position, posicionInicial, velocidadPatrulla*Time.deltaTime);
+            transform.position = Vector3.MoveTowards(
+                transform.position,
+                posicionInicial,
+                velocidadPatrulla * Time.deltaTime
+            );
             if (transform.position == posicionInicial)
             {
-                estado="patrulla";
+                estado = "patrulla";
             }
-        }   
+        }
         //ATAQUE
 
         if (estado == "ataque")
         {
-            transform.position = Vector3.MoveTowards(transform.position, Personaje.transform.position, velocidadAtaque * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(
+                transform.position,
+                Personaje.transform.position,
+                velocidadAtaque * Time.deltaTime
+            );
+            if (AudioManager.Instance.GetComponent<AudioSource>().isPlaying == false)
+            {
+                AudioManager.Instance.SonarClipUnaVez(AudioManager.Instance.clipFantasma);
+            }
         }
-   }
+    }
 
     // EL FANTASMA MATA POR CONTACTO
 
-   void OnTriggerEnter2D(Collider2D col)
+    void OnTriggerEnter2D(Collider2D col)
     {
-        if(col.name == "Player")
+        if (col.name == "Player")
         {
             Personaje.GetComponent<Movimiento>().Respawnear();
         }
@@ -107,12 +132,7 @@ public class Fantasma : MonoBehaviour
             Destroy(col.gameObject, 0.0f);
             Destroy(this.gameObject, 0.0f);
         }
-        
 
         //EL FANTASMA MUERE POR FUEGO
-
-        
     }
-   
-
 }

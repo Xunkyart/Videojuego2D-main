@@ -19,6 +19,7 @@ public class DisparoMagia : MonoBehaviour
         bool disparoMagia = InputSystem.actions["Magia"].WasPressedThisFrame();
         if (disparoMagia)
         {
+            AudioManager.Instance.SonarClipUnaVez(AudioManager.Instance.clipFuego);
             Instantiate(fuegoBala, transform.position, Quaternion.identity);
         }
     }

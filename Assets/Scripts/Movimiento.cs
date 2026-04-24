@@ -103,6 +103,8 @@ public class Movimiento : MonoBehaviour
 
     //MÉTODO PARA RESPAWNEAR
     public void Respawnear(){
+        AudioManager.Instance.SonarClipUnaVez(AudioManager.Instance.clipMuerte);
+
         transform.position = respawn.transform.position;
         
         GameManager.vidas = GameManager.vidas - 1;

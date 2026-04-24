@@ -45,7 +45,6 @@ public class SaltoDobleScript : MonoBehaviour
         yield return new WaitForSeconds(3.0f);
         recargando = false;
         SaltoDobleAnimator.SetBool("Gastado",false);
-        //collider.SetActive(true);
     }
 
     void OnTriggerEnter2D(Collider2D col)

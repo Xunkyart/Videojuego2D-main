@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -6,8 +7,10 @@ public class AudioManager : MonoBehaviour
      
    public AudioClip clipBotones;
    public AudioClip bandaSonora;
-
    public AudioClip clipMonedas;
+   public AudioClip clipMuerte;
+   public AudioClip clipFantasma;
+   public AudioClip clipFuego;
     public static AudioManager Instance;
 
     void Awake()
@@ -15,9 +18,11 @@ public class AudioManager : MonoBehaviour
         if( Instance !=null && Instance != this.gameObject)
         {
             Destroy(this.gameObject);
+            return;
         }
         else
         {
+            Instance = this;
             DontDestroyOnLoad(this.gameObject);
         }
     }
@@ -38,5 +43,12 @@ public class AudioManager : MonoBehaviour
     public void SonarBoton()
     {
         GetComponent<AudioSource>().PlayOneShot(clipBotones);
+    }
+
+
+    
+    public void SonarClipUnaVez(AudioClip sonidoClip)
+    {
+        GetComponent<AudioSource>().PlayOneShot(sonidoClip);
     }
 }
